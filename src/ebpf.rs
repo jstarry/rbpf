@@ -43,7 +43,7 @@ pub const FIRST_SCRATCH_REG: usize = 6;
 /// Number of scratch registers
 pub const SCRATCH_REGS: usize = 4;
 /// Max BPF to BPF call depth
-pub const MAX_CALL_DEPTH: usize = 10;
+pub const MAX_CALL_DEPTH: usize = 50;
 /// ELF dump instruction offset
 /// Instruction numbers typically start at 29 in the ELF dump, use this offset
 /// when reporting so that trace aligns with the dump.
@@ -419,13 +419,13 @@ pub type HelperVerifier = fn (
 ) -> Result<(()), Error>;
 
 /// eBPF Helper pair
-/// 
+///
 /// Includes both the helper function itself, but also an optional helper verification function
 /// that if present will be called first to validate the helper parameters.  A verification
 /// function is not needed if the helper treats its arguments as values but if one of
-/// the arguments represent a pointer then that pointer must be verified by the 
+/// the arguments represent a pointer then that pointer must be verified by the
 /// verification function.
-/// 
+///
 /// Note: native jitted programs do not have the ability to call the verification programs
 /// so all helpers provided to a jitted function must treat their arguments as values only.
 pub struct Helper {
